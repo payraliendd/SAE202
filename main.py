@@ -1,4 +1,6 @@
 from arbreBinaire import *
+from NoeudHuffman import *
+
 def comptage(txt):
     dic={}
     for i in txt:
@@ -30,11 +32,21 @@ t2=dic_to_tab(t1)
 tri_tab(t2)
 print(t2)
 
-
-def creationArbre(tab):
-    a=len(tab)-1
-    b=len(tab)-2
-    Noeud(tab[a],
-    tab.append((tab[b][0]+tab[a][0],tab[b][1]+tab[a][1]))
     
         
+g = NoeudHuffman('g', None, None) # Arbre de valeur 'G', sans sous-arbre (feuille)
+# Arbre de valeur 'F'. Sous-arbre gauche : g. Pas sous-arbre droit.
+f = NoeudHuffman('fg', g, None)
+# Arbre de valeur 'E'. Pas de sous-arbre gauche. Sous-arbre droit : f
+e = NoeudHuffman('efg', None, f)
+d = NoeudHuffman('c', None, None) # Arbre de valeur 'D', sans sous-arbres (feuille)
+c = NoeudHuffman('ab', None, None) # Arbre de valeur 'C', sans sous-arbres (feuille)
+# Arbre de valeur 'B', sous-arbre gauche : c. Sous-arbre droit : d.
+b = NoeudHuffman('abc', c, d)
+# Arbre de valeur 'A', sous-arbre gauche : b. Sous-arbre droit : e.
+a = NoeudHuffman('abcefg', b, e)
+
+table_effectif_finale = NoeudBinaire.construction_arbre(t2)
+print(table_effectif_finale)
+
+
