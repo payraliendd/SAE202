@@ -1,4 +1,40 @@
 from arbreBinaire import *
+from NoeudHuffman import *
+
+def construction_arbre(table_effectif):
+        #fin de récursivité quand il reste une valeur dans le liste (racine de l'arbre)
+        if len(table_effectif) == 1:
+            return table_effectif
+        
+        #Variables qui représentent la valeurs et l'effectif de la combinaison des 2 dernier tuples de la table des effectifs
+        somme_valeur = table_effectif[-1][0] + table_effectif[-2][0]
+        somme_effectif = table_effectif[-1][1] + table_effectif[-2][1]
+
+        #On créé le noeud avec la branche et les 2 sous branches
+        a = NoeudHuffman((somme_valeur,somme_effectif),(table_effectif[-2][0],table_effectif[-2][1]),(table_effectif[-1][0],table_effectif[-1][1]))
+        print(a)
+        
+        #On supprime les 2 dernières valeurs
+        table_effectif.pop()
+        table_effectif.pop()
+
+        insertion = False #variable qui vérifie qu'il y a eu une insertion
+
+        #On parcourt la liste à l'envers et on place la combinaison avant le premier élément lu qui a le même effectif que celui de la combinaison
+        for i in reversed(table_effectif):
+            if i[1] >= somme_effectif:
+                position = table_effectif.index(i)
+                table_effectif.insert(position+1,(somme_valeur,somme_effectif))
+                insertion = True
+                break
+
+        #S'il n'y pas eu d'insertion (la somme est supérieure à tous les effectifs)
+        if not insertion:
+            table_effectif.insert(0,(somme_valeur,somme_effectif))
+
+        #On répète l'opération avec la nouvelle table des effecitifs
+        return construction_arbre(table_effectif)
+
 def comptage(txt):
     dic={}
     for i in txt:
@@ -30,11 +66,21 @@ t2=dic_to_tab(t1)
 tri_tab(t2)
 print(t2)
 
-
-def creationArbre(tab):
-    a=len(tab)-1
-    b=len(tab)-2
-    Noeud(tab[a],
-    tab.append((tab[b][0]+tab[a][0],tab[b][1]+tab[a][1]))
     
         
+g = NoeudHuffman('g', None, None) # Arbre de valeur 'G', sans sous-arbre (feuille)
+# Arbre de valeur 'F'. Sous-arbre gauche : g. Pas sous-arbre droit.
+f = NoeudHuffman('fg', g, None)
+# Arbre de valeur 'E'. Pas de sous-arbre gauche. Sous-arbre droit : f
+e = NoeudHuffman('efg', None, f)
+d = NoeudHuffman('c', None, None) # Arbre de valeur 'D', sans sous-arbres (feuille)
+c = NoeudHuffman('ab', None, None) # Arbre de valeur 'C', sans sous-arbres (feuille)
+# Arbre de valeur 'B', sous-arbre gauche : c. Sous-arbre droit : d.
+b = NoeudHuffman('abc', c, d)
+# Arbre de valeur 'A', sous-arbre gauche : b. Sous-arbre droit : e.
+a = NoeudHuffman('abcefg', b, e)
+
+table_effectif_finale = construction_arbre(t2)
+print(table_effectif_finale)
+
+
