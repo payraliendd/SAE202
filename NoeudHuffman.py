@@ -24,6 +24,7 @@ class NoeudHuffman(NoeudBinaire):
                 encodage += "1"
                 return self.get_d().encodage_huffman(lettre,encodage)
     
+    @staticmethod
     def compression(texte,liste_encodage):
         resultat = ""
         for chr in texte:
@@ -40,16 +41,17 @@ class NoeudHuffman(NoeudBinaire):
             for j in range(i + 1, len(liste_noeud)):
                 poids_maxi = liste_noeud[maxi].get_v()[1]
                 poids_actuel = liste_noeud[j].get_v()[1]
-               
+                
                 if poids_maxi < poids_actuel:
                     maxi = j
-                   
+                    
             temp = liste_noeud[i]
             liste_noeud[i] = liste_noeud[maxi]
             liste_noeud[maxi] = temp
-    
+
     @staticmethod
     def construction_arbre(table_effectif):
+        #On trie la table d'effectif par ordre décroissant
         liste_noeud = []
         for i in table_effectif:
             liste_noeud.append(NoeudHuffman(i,None,None))
@@ -66,7 +68,7 @@ class NoeudHuffman(NoeudBinaire):
             nouveau_noeud = NoeudHuffman(nouveau_t,noeud_gauche,noeud_droit)
             liste_noeud.append(nouveau_noeud)
 
-            liste_noeud.tri_noeuds()
+            NoeudHuffman.tri_noeuds(liste_noeud)
         
         return liste_noeud[0]
 
