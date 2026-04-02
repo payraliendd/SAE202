@@ -21,6 +21,7 @@ class NoeudBinaire():
             chaine += "     " * h + "|--> \n"
         return chaine
       
+        
     
     def get_v(self):
         return self.v
