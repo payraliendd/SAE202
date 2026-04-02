@@ -35,6 +35,7 @@ tri_tab(t2)
 tri_tab(t2)
 arbre = NoeudHuffman.construction_arbre(t2)
 print(arbre)
+print(arbre.encodage_huffman())
 
 
 
