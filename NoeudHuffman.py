@@ -1,5 +1,7 @@
 from arbreBinaire import *
 
+
+
 class NoeudHuffman(NoeudBinaire):
     
     def __init__(self,v,g,d):
@@ -12,13 +14,13 @@ class NoeudHuffman(NoeudBinaire):
         
         #On vérifie que la branche gauche n'est pas vide comme le premier test vérifie uniquement que la branche est une feuille
         if self.get_g() is not None:
-            if lettre in self.get_g().get_v():
+            if lettre in self.get_g().get_v()[0]:
                 encodage += "0"
                 return self.get_g().encodage_huffman(lettre,encodage)
         
         #On vérifie que la branche droite n'est pas vide comme le premier test vérifie uniquement que la branche est une feuille
         if self.get_d() is not None:
-            if lettre in self.get_d().get_v() :
+            if lettre in self.get_d().get_v()[0] :
                 encodage += "1"
                 return self.get_d().encodage_huffman(lettre,encodage)
     
@@ -29,6 +31,45 @@ class NoeudHuffman(NoeudBinaire):
                 if chr == cle[0]:
                     resultat += cle[1]
         return resultat
+    
+    @staticmethod
+    def tri_noeuds(liste_noeud):
+        """Trie une liste d'objets NoeudHuffman par ordre décroissant de poids."""
+        for i in range(len(liste_noeud)):
+            maxi = i
+            for j in range(i + 1, len(liste_noeud)):
+                poids_maxi = liste_noeud[maxi].get_v()[1]
+                poids_actuel = liste_noeud[j].get_v()[1]
+               
+                if poids_maxi < poids_actuel:
+                    maxi = j
+                   
+            temp = liste_noeud[i]
+            liste_noeud[i] = liste_noeud[maxi]
+            liste_noeud[maxi] = temp
+    
+    @staticmethod
+    def construction_arbre(table_effectif):
+        liste_noeud = []
+        for i in table_effectif:
+            liste_noeud.append(NoeudHuffman(i,None,None))
+        
+        while len(liste_noeud) > 1:
+            noeud_gauche = liste_noeud.pop()
+            noeud_droit = liste_noeud.pop()
+
+            tuple_g = noeud_gauche.get_v()
+            tuple_d = noeud_droit.get_v()
+
+            nouveau_t = (tuple_g[0] + tuple_d[0], tuple_g[1] + tuple_d[1])
+
+            nouveau_noeud = NoeudHuffman(nouveau_t,noeud_gauche,noeud_droit)
+            liste_noeud.append(nouveau_noeud)
+
+            liste_noeud.tri_noeuds()
+        
+        return liste_noeud[0]
+
 
         
         
