@@ -20,30 +20,33 @@ class NoeudBinaire():
         else:
             chaine += "     " * h + "|--> \n"
         return chaine
-      
         
     
     def get_v(self):
         return self.v
-    
     def get_g(self):
         return self.g
-    
     def get_d(self):
         return self.d
-    
+    def set_v(self, nouveau_v):
+        self.v=nouveau_v              
+    def set_gauche(self, nouveau_g):
+        if nouveau_g is not None and not isinstance(nouveau_g, NoeudBinaire):
+            raise TypeError("L'enfant gauche doit être de type NoeudBinaire ou None.")
+        self.g = nouveau_g
+        
+    def set_droit(self, nouveau_d):
+        if nouveau_d is not None and not isinstance(nouveau_d, NoeudBinaire):
+            raise TypeError("L'enfant droit doit etre de type NoeudBinaire ou None.")
+        self.d = nouveau_d
     def arbre_gauche(self):
-        return self.g!=None
-    
+        return self.g is not None
     def arbre_droit(self):
-        return self.d!=None
-    
+        return self.d is not None
     def arbre_f(self):
-        return self.g==None and self.d==None
-    
+        return self.g is None and self.d is None
     def arbre_v(self):
-        return self.v==None
-    
+        return self.v is None and self.g is None and self.d is None
     def hauteur(self):
         if self.arbre_v():
             return 0
@@ -56,7 +59,6 @@ class NoeudBinaire():
         else:
             hd=0
         return 1+max(hg,hd)
-    
     def prefixe(self):
         tab=[]
         if self.v is not None: 
@@ -66,7 +68,6 @@ class NoeudBinaire():
         if self.arbre_droit():
             tab+=self.d.prefixe()
         return tab
-    
     def suffixe(self):
         tab=[]
         if self.arbre_gauche():
@@ -75,7 +76,6 @@ class NoeudBinaire():
             tab+=self.d.suffixe()
         tab.append(self.v)
         return tab
-    
     def infixe(self):
         tab=[]
         if self.arbre_gauche():
@@ -84,7 +84,6 @@ class NoeudBinaire():
         if self.arbre_droit():
             tab+=self.d.infixe()
         return tab
-    
     def Largeur(self):
         tab=[]
         file=[self]
@@ -96,9 +95,9 @@ class NoeudBinaire():
             if noeud.d is not None:
                 file.append(noeud.d)
         return tab
+        
     
-
-
+    
 g = NoeudBinaire('G', None, None)
 f = NoeudBinaire('F', g, None)
 e = NoeudBinaire('E', None, f)
