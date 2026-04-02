@@ -1,3 +1,4 @@
+from arbreBinaire import *
 def test_NoeudBinaire():
     g = NoeudBinaire('G', None, None)
     f = NoeudBinaire('F', g, None)
@@ -13,7 +14,7 @@ def test_NoeudBinaire():
     g.set_v('G')
     
     try:
-        a.set_gauche("Ceci n'est pas un noeud")
+        a.set_gauche("eurreur")
     except TypeError:
         pass
 

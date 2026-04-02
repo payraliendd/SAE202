@@ -1,8 +1,8 @@
 class NoeudBinaire():
     def __init__(self, v, g, d):
         self.v=v
-        self.g=g
-        self.d=d
+        self.set_gauche(g) 
+        self.set_droit(d)
     def __str__(self, h=0):
         if h == 0:
             chaine = str(self.v) + "\n"
