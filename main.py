@@ -12,7 +12,6 @@ def comptage(txt):
 
 def dic_to_tab(dic):
     tab=[]
-    j=0
     for i in dic:
         tab.append((i,dic[i]))
     return tab

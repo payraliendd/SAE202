@@ -1,29 +1,40 @@
 from arbreBinaire import *
 
-
-
 class NoeudHuffman(NoeudBinaire):
     
+    #Ce constructeur reprend les attributs de la classe parent
     def __init__(self,v,g,d):
         super().__init__(v,g,d)
 
     def encodage_huffman(self, code="", dic=None):
+        #Création d'un dictionnaire {valeur,encodage}
         if dic is None:
             dic={}
+        #Si la branche courante est un arbre, on affecte la valeur son chemin depuis la racine au dictionnaire
         if self.arbre_f():
-            dic[self.v]=code
+            dic[self.v]=code 
         else:
+            #On parcourt toutes les branches à gauche de la branche courante s'il en existe
             if self.arbre_gauche():
                 self.g.encodage_huffman(code + "0", dic)
+            
+            #On parcourt toutes les branches à droite de la branche courante s'il en existe
             if self.arbre_droit():
                 self.d.encodage_huffman(code + "1", dic)
         return dic
     
     @staticmethod
-    def compression(texte,dic_encodage):
+    def compression(texte, dic_encodage):
+        # Variable qui correspond au texte traduit après la compression
         resultat = ""
-        for chr in texte:
-            resultat += dic_encodage[chr]
+
+        for char in texte:
+            # On parcourt les clés du dictionnaire pour trouver celle qui contient notre caractère
+            for cle_tuple in dic_encodage:
+                # cle_tuple ressemble à ('a', 10)
+                if cle_tuple[0] == char:
+                    resultat += dic_encodage[cle_tuple]
+                    break
         return resultat
     
     @staticmethod
@@ -44,11 +55,12 @@ class NoeudHuffman(NoeudBinaire):
 
     @staticmethod
     def construction_arbre(table_effectif):
-        #On trie la table d'effectif par ordre décroissant
         liste_noeud = []
+        #On initialise tous les tuples de la table des effectifs à une feuille
         for i in table_effectif:
             liste_noeud.append(NoeudHuffman(i,None,None))
         
+        #Algorithme de Huffman
         while len(liste_noeud) > 1:
             noeud_gauche = liste_noeud.pop()
             noeud_droit = liste_noeud.pop()
@@ -63,7 +75,7 @@ class NoeudHuffman(NoeudBinaire):
 
             NoeudHuffman.tri_noeuds(liste_noeud)
         
-        return liste_noeud[0]
+        return liste_noeud[0] #On retourne uniquement la racine
 
 
         
