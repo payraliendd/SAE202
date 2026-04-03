@@ -36,6 +36,10 @@ tri_tab(t2)
 arbre = NoeudHuffman.construction_arbre(t2)
 print(arbre)
 print(arbre.encodage_huffman())
+print()
+t3=NoeudHuffman.construction_arbre(tri_tab(dic_to_tab(comptage("bonjour"))))
+print(t3)
+print(t3.encodage_huffman())
 
 
 
